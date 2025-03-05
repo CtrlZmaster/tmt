@@ -92,6 +92,10 @@ class FieldMetadata(Generic[T]):
     #: Help text documenting the field.
     help: Optional[str] = None
 
+    #: Specific values that should be shown in the documentation as
+    #: interesting examples of the field usage.
+    help_example_values: list[str] = simple_field(default_factory=list)
+
     #: If field accepts a value, this string would represent it in documentation.
     #: This stores the metavar provided when field was created - it may be unset.
     #: py:attr:`metavar` provides the actual metavar to be used.
@@ -662,6 +666,7 @@ def field(
     envvar: Optional[str] = None,
     deprecated: Optional['tmt.options.Deprecated'] = None,
     help: Optional[str] = None,
+    help_example_values: Optional[list[str]] = None,
     show_default: bool = False,
     internal: bool = False,
     # Input data normalization - not needed, the field is a boolean
@@ -689,6 +694,7 @@ def field(
     envvar: Optional[str] = None,
     deprecated: Optional['tmt.options.Deprecated'] = None,
     help: Optional[str] = None,
+    help_example_values: Optional[list[str]] = None,
     show_default: bool = False,
     internal: bool = False,
     # Input data normalization
@@ -715,6 +721,7 @@ def field(
     envvar: Optional[str] = None,
     deprecated: Optional['tmt.options.Deprecated'] = None,
     help: Optional[str] = None,
+    help_example_values: Optional[list[str]] = None,
     show_default: bool = False,
     internal: bool = False,
     # Input data normalization
@@ -740,6 +747,7 @@ def field(
     envvar: Optional[str] = None,
     deprecated: Optional['tmt.options.Deprecated'] = None,
     help: Optional[str] = None,
+    help_example_values: Optional[list[str]] = None,
     show_default: bool = False,
     internal: bool = False,
     # Input data normalization
@@ -766,6 +774,7 @@ def field(
     envvar: Optional[str] = None,
     deprecated: Optional['tmt.options.Deprecated'] = None,
     help: Optional[str] = None,
+    help_example_values: Optional[list[str]] = None,
     show_default: bool = False,
     internal: bool = False,
     # Input data normalization
@@ -809,6 +818,8 @@ def field(
     :param help: the help string for the command-line option. Multiline strings
         can be used, :py:func:`textwrap.dedent` is applied before passing
         ``help`` to :py:func:`click.option`.
+    :param help_example_values: Specific values that should be shown in
+        the documentation as interesting examples of the field usage.
     :param show_default: show default value
         Passed directly to :py:func:`click.option`.
     :param internal: if set, the field is treated as internal-only, and will not
@@ -850,6 +861,7 @@ def field(
             'tmt': FieldMetadata(
                 internal=internal,
                 help=textwrap.dedent(help).strip() if help else None,
+                help_example_values=help_example_values or [],
                 _metavar=metavar,
                 default=default,
                 default_factory=default_factory,
